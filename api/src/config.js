@@ -1,0 +1,1 @@
+export default MONGODB_URL="mongodb+srv://letscms:letscms@1243@cluster0.rirwt.mongodb.net/graphqldb?retryWrites=true&w=majority"
