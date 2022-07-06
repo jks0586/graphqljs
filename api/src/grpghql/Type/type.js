@@ -2,25 +2,31 @@ import { gql } from "apollo-server"
 const typeDefs=gql`
     type Query{
         users:[User]
-        user(id:ID!):User
+        user(_id:ID!):User
         quotes:[Quote]
-        uquote(id:ID!):[Quote]
+        uquote(_id:ID!):[Quote]
     }
     type User {
-        id:ID
+        _id:ID
         firstName:String
         lastName:String
         email:String
         password:String
         quotes:[Quote]
+        token:String
     }
     type Quote{
         name:String
         by:ID
     }
 
+    type Token{
+        token:String
+    }
     type Mutation{
-        signupUserDummy(UserNew:UserInput!):User
+        signupUser(UserNew:UserInput!):User
+        signInUser(ExistUser:SignInInput!):User
+        createQuote(name:String!):String
     }
     
     input UserInput{
@@ -28,6 +34,11 @@ const typeDefs=gql`
         lastName:String!
         email:String
         password:String
+    }
+
+    input SignInInput{
+        email:String!
+        password:String!
     }
 `;
 

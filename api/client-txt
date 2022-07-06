@@ -2,7 +2,7 @@ https://www.youtube.com/watch?v=WyVwfUo18pI&list=PLB97yPrFwo5i9zDrWfvkohPec3Q6EE
 
 https://www.faire.com/
 https://damensch.com/
-
+https://www.syncfusion.com/react-ui-components?utm_medium=ads&utm_source=googleads&utm_campaign=react-tier2&gclid=EAIaIQobChMI-IvK04ri-AIV-ZJmAh3CrwvtEAAYASAAEgKXE_D_BwE
 ===============================================================
  
 query getAllUsers{
@@ -48,13 +48,58 @@ query getQuoteByUser{
 
 mutation
   createUser($userNew:UserInput!){
-   user:signupUserDummy(UserNew:$userNew){
-    id
+   user:signupUser(UserNew:$userNew){
+    _id
     firstName
     lastName
     email
   } 
   }
 
+
+
+// variables
+  {
+    "userNew":{
+      "firstName": "jitendra",
+      "lastName": "sharma",
+      "email": "jks0586@gmail.com",
+      "password": "1234567890"
+    }
+  }
+
+
+=================================
+
+mutation
+  signinUser($existUser:SignInInput!){
+   user:signInUser(ExistUser:$existUser){
+    token
+  } 
+  }	
+// variables
+  {
+    "existUser": {
+      "email": "jks0586@gmail.com",
+      "password": "1234567890"
+    }
+  }
+
+===========================
+
+// login with token
+mutation
+  signinUser($existUser:SignInInput!){
+   user:signInUser(ExistUser:$existUser){
+    token
+  } 
+  }	
+
+  {
+    "existUser": {
+      "email": "jks05861@gmail.com",
+      "password": "1234567890"
+    }
+  }
 
 =================================

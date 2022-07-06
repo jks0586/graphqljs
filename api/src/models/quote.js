@@ -1,6 +1,6 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
-const quoteSchema=new Mongoose.schema({
+const quoteSchema=new mongoose.Schema({
     name:{
         type: String,
         required:true
