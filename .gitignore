@@ -5,6 +5,7 @@
 
 # Node artifact files
 api/node_modules/
+admin/node_modules/
 dist/
 vendor/
 
