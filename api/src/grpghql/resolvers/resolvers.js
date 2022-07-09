@@ -8,13 +8,13 @@ const User = mongoose.model("User");
 const Quote = mongoose.model("Quote");
 const resolvers={
     Query:{
-        users:()=>users,
-        user:(_,{_id})=>users.find(user=>user._id==_id),
-        quotes:()=>quotes,
-        uquote:(_,{_id})=>quotes.filter(quote=>quote.by==_id)
+        users: async ()=> await User.find({}),
+        user:async (_,{_id})=> await User.findOne({_id}),
+        quotes:async ()=>await Quote.find({}).populate("by","_id firstName"),
+        uquote:async (_,{by})=>await Quote.findOne({by}),
     },
     User:{
-        quotes:(ur)=>quotes.filter(quote=>quote.by==ur._id)
+        quotes:(ur)=> Quote.find({by:ur._id})
     },
 
     Mutation:{
