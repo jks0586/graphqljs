@@ -1,65 +1,64 @@
-import { users, quotes } from "../../../fakedb.js";
+import { users, quotes } from '../../../fakedb.js'
 import { randomBytes } from 'crypto'
 import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs';
-import Jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../config.js";
-const User = mongoose.model("User");
-const Quote = mongoose.model("Quote");
-const resolvers={
-    Query:{
-        users: async ()=> await User.find({}),
-        user:async (_,{_id})=> await User.findOne({_id}),
-        quotes:async ()=>await Quote.find({}).populate("by","_id firstName"),
-        uquote:async (_,{by})=>await Quote.findOne({by}),
+import bcrypt from 'bcryptjs'
+import Jwt from 'jsonwebtoken'
+import { JWT_SECRET } from '../../config.js'
+const User = mongoose.model('User')
+const Quote = mongoose.model('Quote')
+const resolvers = {
+  Query: {
+    users: async () => await User.find({}),
+    user: async (_, { _id }) => await User.findOne({ _id }),
+    quotes: async () => await Quote.find({}).populate('by', '_id firstName'),
+    uquote: async (_, { by }) => await Quote.findOne({ by })
+  },
+  User: {
+    quotes: ur => Quote.find({ by: ur._id })
+  },
+
+  Mutation: {
+    signupUser: async (_, { UserNew }) => {
+      const user = await User.findOne({ email: UserNew.email })
+      if (user) {
+        throw new Error(`This Email  is already exist`)
+      }
+      const hashPassword = await bcrypt.hash(UserNew.password, 12)
+      const newuser = new User({
+        ...UserNew,
+        password: hashPassword
+      })
+
+      return await newuser.save()
     },
-    User:{
-        quotes:(ur)=> Quote.find({by:ur._id})
+    signInUser: async (_, { ExistUser }) => {
+      const user = await User.findOne({ email: ExistUser.email })
+      if (!user) {
+        throw new Error('User Does not exist with this email Id')
+      }
+
+      // return 'kjkjhkjkhkh';
+
+      const doMatch = await bcrypt.compare(ExistUser.password, user.password)
+      if (!doMatch) {
+        throw new Error('Email or Passowrd is Invalid')
+      }
+      const token = Jwt.sign({ userId: user._id }, JWT_SECRET)
+      user.token = token
+      return user
     },
+    createQuote: async (_, { name }, { userId }) => {
+      if (!userId) throw new Error('You must be loged In')
 
-    Mutation:{
-        signupUser:async (_,{UserNew})=>{
-            const user= await User.findOne({email:UserNew.email});
-            if(user){
-                throw new Error("this is already exist");
-            }
-            const hashPassword= await bcrypt.hash(UserNew.password,12)
-            const newuser = new User({
-                ...UserNew,
-                password:hashPassword
-            })
+      const newquote = new Quote({
+        name,
+        by: userId
+      })
 
-            return await newuser.save();
-        },
-        signInUser:async (_,{ExistUser})=>{
-            const user = await User.findOne({email:ExistUser.email})
-            if(!user){
-                throw new Error("User Does not exist with this email Id")
-            } 
-           
-            // return 'kjkjhkjkhkh';
-
-            const doMatch = await bcrypt.compare(ExistUser.password,user.password)
-            if(!doMatch){
-                throw new Error("Email or Passowrd is Invalid")
-            }
-            const token= Jwt.sign({userId:user._id},JWT_SECRET)
-            user.token=token;
-            return user;
-            
-        },
-        createQuote: async (_,{name},{userId})=>{
-            if(!userId) throw new Error('You must be loged In')
-            
-            const newquote= new Quote({
-                name,
-                by:userId
-            })
-
-            await newquote.save();
-            return "Quote Save succsesfully"
-        }
+      await newquote.save()
+      return 'Quote Save succsesfully'
     }
+  }
 }
 
-export default resolvers;
+export default resolvers
