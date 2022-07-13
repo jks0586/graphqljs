@@ -15,12 +15,16 @@ export const GET_ALL_QUOTES = gql`
 
 export const GET_ALL_QUOTES_BY_USER = gql`
   query getAllQuotesByUser {
-    uquote {
+    uquotes {
       _id
       name
-      by {
-        _id
-        firstName
+    }
+    me: myprofile {
+      firstName
+      lastName
+      email
+      quotes {
+        name
       }
     }
   }

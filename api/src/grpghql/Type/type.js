@@ -5,7 +5,7 @@ const typeDefs = gql`
     user(_id: ID!): User
     quotes: [QuoteWithName]
     myprofile: User
-    uquote(_id: ID!): [Quote]
+    uquotes: [Quote]
   }
   type QuoteWithName {
     _id: String
@@ -19,17 +19,17 @@ const typeDefs = gql`
   }
   type User {
     _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    password: String
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
     quotes: [Quote]
     token: String
   }
   type Quote {
     _id: String
-    name: String
-    by: ID
+    name: String!
+    by: ID!
   }
 
   type Token {
