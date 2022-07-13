@@ -2,14 +2,12 @@ import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CREATE_QUOTE } from '../graphjs/mutations'
-import { GET_ALL_QUOTES } from '../graphjs/queries'
+// import { GET_ALL_QUOTES } from '../graphjs/queries'
 
 export default function CreateQuote () {
   const [quote, setQuote] = useState('')
 
-  const [createQuote, { data, loading, error }] = useMutation(CREATE_QUOTE, {
-    refetchQueries: [GET_ALL_QUOTES, 'getAllQuotes']
-  })
+  const [createQuote, { data, loading, error }] = useMutation(CREATE_QUOTE)
   const navigation = useNavigate()
   if (loading) return <h1>Loading</h1>
   if (error) {

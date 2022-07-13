@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/client'
-import { GET_ALL_QUOTES_BY_USER } from '../graphjs/queries'
+import { GET_ALL_QUOTES } from '../graphjs/queries'
 export default function Home () {
   // useEffect(() => {
   //   fetch('http://localhost:4000', {
@@ -19,7 +19,7 @@ export default function Home () {
   //     .then(res => res.json())
   //     .then(data => console.log(data))
   // }, [])
-  const { loading, error, data } = useQuery(GET_ALL_QUOTES_BY_USER)
+  const { loading, error, data } = useQuery(GET_ALL_QUOTES)
 
   if (loading) return <h1>Loading</h1>
   if (error) {

@@ -25,12 +25,12 @@ export default function Login () {
       ...formdata,
       [e.target.name]: e.target.value
     })
-    console.log(formdata)
+    // console.log(formdata)
   }
 
   const handlesubmit = e => {
     e.preventDefault()
-    console.log(formdata)
+    // console.log(formdata)
     signinUser({ variables: { existUser: formdata } })
     // navigate('/')
   }

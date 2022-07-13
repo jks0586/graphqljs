@@ -25,3 +25,16 @@ export const GET_ALL_QUOTES_BY_USER = gql`
     }
   }
 `
+
+export const GET_MY_PROFILE = gql`
+  query getMyProfile {
+    me: myprofile {
+      firstName
+      lastName
+      email
+      quotes {
+        name
+      }
+    }
+  }
+`

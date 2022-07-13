@@ -28,7 +28,7 @@ export default function Signup () {
     e.preventDefault()
     console.log(formdata)
     signupUser({ variables: { userNew: formdata } })
-    // navigate('/')
+    navigate('/')
   }
 
   return (

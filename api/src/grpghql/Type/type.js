@@ -4,6 +4,7 @@ const typeDefs = gql`
     users: [User]
     user(_id: ID!): User
     quotes: [QuoteWithName]
+    myprofile: User
     uquote(_id: ID!): [Quote]
   }
   type QuoteWithName {
