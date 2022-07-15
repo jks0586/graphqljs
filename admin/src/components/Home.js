@@ -1,8 +1,8 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { GET_ALL_QUOTES_BY_USER,GET_MY_PROFILE } from '../graphjs/queries'
+import { GET_ALL_QUOTES } from '../graphjs/queries'
+import { Link } from 'react-router-dom'
 export default function Home () {
-  
   // const queryMultiple = () => {
   //   const res1 = useQuery(GET_ALL_QUOTES_BY_USER, {
   //     refetchQueries: ["getAllQuotesByUser"],
@@ -12,12 +12,11 @@ export default function Home () {
   //   });
   //   return [res1, res2];
   // }
-  
+
   // const [
   //     { loading: loading1, data: data1,error: error1 },
   //     { loading: loading2, data: data2 ,error: error2}
   // ] = queryMultiple()
-
 
   // if (loading1) return <h1>Loading</h1>
   // if (error1) {
@@ -37,10 +36,8 @@ export default function Home () {
   //   console.log(data2)
   // }
 
-
-
-  const { loading, error, data } = useQuery(GET_ALL_QUOTES_BY_USER, {
-    refetchQueries: ["getAllQuotesByUser"],
+  const { loading, error, data } = useQuery(GET_ALL_QUOTES, {
+    refetchQueries: ['getAllQuotesByUser']
   })
 
   if (loading) return <h1>Loading</h1>
@@ -54,11 +51,13 @@ export default function Home () {
 
   return (
     <div className='container'>
-      {data.uquotes.map(quote => {
+      {data.quotes.map(quote => {
         return (
           <blockquote key={quote._id}>
             <h6>{quote.name}</h6>
-            <p className='right-align'>~{data.me.firstName}</p>
+            <Link to={`/profile/${quote.by._id}`}>
+              <p className='right-align'>~{quote.by.firstName}</p>
+            </Link>
           </blockquote>
         )
       })}

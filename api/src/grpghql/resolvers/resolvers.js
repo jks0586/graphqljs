@@ -11,14 +11,14 @@ const resolvers = {
     users: async () => await User.find({}),
     user: async (_, { _id }) => await User.findOne({ _id }),
     quotes: async () => await Quote.find({}).populate('by', '_id firstName'),
-    uquotes: async (_, args,{userId}) => await Quote.find({ by:userId }),
+    // uquotes: async (_, args, { userId }) => await Quote.find({ by: userId }),
     myprofile: async (_, args, { userId }) => {
       if (!userId) throw new Error('You must be Logedin ')
       return await User.findOne({ _id: userId })
     }
   },
   User: {
-    quotes: async (_, args,{userId}) => {
+    quotes: async (_, args, { userId }) => {
       return await Quote.find({ by: userId })
     }
   },
