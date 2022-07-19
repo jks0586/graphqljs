@@ -2,9 +2,9 @@ import { ApolloServer, gql } from 'apollo-server'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 
 import mongoose from 'mongoose'
-import { MONGODB_URL, JWT_SECRET } from './src/config.js'
+// import { MONGODB_URL, JWT_SECRET } from './src/config.js'
 
-mongoose.connect(MONGODB_URL, {})
+mongoose.connect(process.env.MONGODB_URL, {})
 
 mongoose.connection.on('connected', () => {
   console.log('connected to mongodb')
@@ -22,7 +22,7 @@ import jwt from 'jsonwebtoken'
 const context = ({ req }) => {
   const { authorization } = req.headers
   if (authorization) {
-    const { userId } = jwt.verify(authorization, JWT_SECRET)
+    const { userId } = jwt.verify(authorization, process.env.JWT_SECRET)
     return { userId }
   }
 }

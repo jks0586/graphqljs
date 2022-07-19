@@ -3,7 +3,7 @@ import { randomBytes } from 'crypto'
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import Jwt from 'jsonwebtoken'
-import { JWT_SECRET } from '../../config.js'
+// import { JWT_SECRET } from '../../config.js'
 const User = mongoose.model('User')
 const Quote = mongoose.model('Quote')
 const resolvers = {
@@ -49,7 +49,7 @@ const resolvers = {
       if (!doMatch) {
         throw new Error('Email or Passowrd is Invalid')
       }
-      const token = Jwt.sign({ userId: user._id }, JWT_SECRET)
+      const token = Jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
       user.token = token
       return user
     },
